@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SUARA TK --- Suara Teknik Komputer
+> *Dengar, Catat, Tindaklanjuti.*  
+> Program kerja berkelanjutan Divisi Humas Himpunan Mahasiswa Teknik Komputer (HIMTEK).
 
-## Getting Started
+SUARA TK adalah web application yang menjadi kanal komunikasi aspirasi, kritik, saran, ide kegiatan, serta laporan kendala mahasiswa Teknik Komputer kepada HIMTEK dan pihak terkait kampus secara transparan dan bertanggung jawab.
 
-First, run the development server:
+---
 
+## 🚀 Fitur Utama MVP
+
+1. **Beranda & Profil Program (`/`)**
+   - Penjelasan alur aspirasi, kategori, FAQ interaktif, dan pencarian cepat kode tiket.
+2. **Form Pengiriman Aspirasi (`/submit`)**
+   - Mode pengiriman fleksibel: **Anonim** (data pengenal diri tidak disimpan) atau **Dengan Identitas**.
+   - Validasi input, pilihan kategori terstandarisasi, dan persetujuan etika.
+   - Penerbitan otomatis **Kode Tiket Acak Unik** publik (contoh: `STK-7K4P-9M2Q`).
+3. **Pelacakan Status & Timeline (`/track`)**
+   - Pelacakan menggunakan nomor tiket tanpa perlu login.
+   - Visualisasi timeline kronologis tahapan verifikasi hingga penyelesaian.
+   - Kotak tanggapan resmi dari Humas HIMTEK.
+   - Sanitasi data pribadi dan proteksi catatan internal.
+4. **Panduan & Kebijakan Privasi (`/tentang`)**
+   - Standar etika pengiriman masukan.
+   - Kebijakan privasi dan transparansi data.
+   - Target waktu respons (SLA 3-5 hari kerja).
+   - Prosedur rujukan cepat untuk isu darurat/sensitif.
+5. **Dashboard Pengelola Admin (`/admin/dashboard`)**
+   - Antrean aspirasi masuk dengan pencarian dan filter status/kategori.
+   - Pengubahan status, tingkat prioritas, respons publik, dan catatan internal.
+   - Statistik agregat tindak lanjut.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 14 (App Router) + TypeScript
+- **Styling:** Tailwind CSS + Lucide React Icons
+- **Database / Backend:** Supabase (PostgreSQL, Row Level Security, Migration SQL disertakan di `supabase/migrations/`)
+- **Hosting:** Vercel
+
+---
+
+## 💻 Cara Menjalankan Secara Lokal
+
+### 1. Masuk ke direktori proyek
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd suara-tk
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Jalankan development server
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Buka peramban Anda di: [http://localhost:3000](http://localhost:3000)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Halaman yang dapat langsung dicoba
+- **Beranda:** [http://localhost:3000/](http://localhost:3000/)
+- **Kirim Aspirasi:** [http://localhost:3000/submit](http://localhost:3000/submit)
+- **Pelacakan Tiket:** [http://localhost:3000/track](http://localhost:3000/track)  
+  *Gunakan contoh tiket demo:*
+  - `STK-7K4P-9M2Q` *(Fasilitas Lab - Status: Dalam Proses)*
+  - `STK-8B2X-4L9V` *(Workshop Docker - Status: Selesai)*
+  - `STK-3V9T-1W8F` *(Jadwal Pengganti - Status: Ditinjau)*
+- **Dashboard Admin:** [http://localhost:3000/admin/dashboard](http://localhost:3000/admin/dashboard)
+- **Panduan & Privasi:** [http://localhost:3000/tentang](http://localhost:3000/tentang)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📂 Struktur Direktori Proyek
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+suara-tk/
+├── app/
+│   ├── (public)/
+│   │   ├── page.tsx               # Landing Page & FAQ
+│   │   ├── submit/page.tsx        # Form Aspirasi & Generator Tiket
+│   │   ├── track/page.tsx         # Pelacakan Status & Timeline
+│   │   └── tentang/page.tsx       # Panduan Etika, SLA & Privasi
+│   ├── admin/
+│   │   └── dashboard/page.tsx     # Dashboard Pengelola Humas
+│   └── api/
+│       ├── aspirations/           # Endpoint submit & verifikasi
+│       └── admin/aspirations/     # Endpoint kelola status & respons
+├── components/
+│   ├── Navbar.tsx                 # Header navigasi responsif
+│   ├── Footer.tsx                 # Footer & disclaimer darurat
+│   ├── StatusBadge.tsx            # Badge visual status
+│   └── Timeline.tsx               # Timeline kronologis status
+├── lib/
+│   ├── types.ts                   # Type definitions TypeScript
+│   ├── constants.ts               # Kategori & konfigurasi status
+│   └── store.ts                   # In-memory store & ticket generator
+├── supabase/
+│   └── migrations/                # Skema SQL, RLS, triggers & functions
+├── .env.example                   # Template variabel lingkungan
+└── README.md
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🔒 Privasi dan Keamanan
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Data Minimization:** Tidak meminta data sensitif seperti password, nomor induk mahasiswa (NIM), atau rekening.
+- **Random Ticket Entropy:** Kode tiket dibuat secara acak non-sekuensial (`STK-XXXX-XXXX`) untuk mencegah enumerasi.
+- **Sanitasi Publik:** Respons internal, identitas admin, dan data pribadi pengirim tidak pernah diekspos ke publik.
